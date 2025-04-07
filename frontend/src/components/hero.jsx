@@ -4,7 +4,7 @@ import Polygon from "./ui/polygon";
 import Paragraph from "./ui/paragraph";
 import Header1 from "./ui/header1";
 
-export default function heroSection() {
+function HeroSection() {
 
   return (
     <div className="bg-white">
@@ -41,3 +41,4 @@ export default function heroSection() {
     </div>
   );
 }
+export default HeroSection

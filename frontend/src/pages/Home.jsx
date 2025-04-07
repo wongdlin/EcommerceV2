@@ -1,11 +1,15 @@
-import heroSection from "../components/hero"
+import HeroSection from "../components/hero"
+import BentoGrid from "../components/bentogrid"
 
 function Home() {
 
     
 
     return(
-        <div>{heroSection()}</div>
+        <>
+        <HeroSection/>
+        <BentoGrid/>
+        </>
         
     )
 
