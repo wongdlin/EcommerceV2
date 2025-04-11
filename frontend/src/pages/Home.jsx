@@ -1,5 +1,6 @@
 import HeroSection from "../components/hero"
 import BentoGrid from "../components/bentogrid"
+import PromoSection from "../components/promo"
 
 function Home() {
 
@@ -9,6 +10,7 @@ function Home() {
         <>
         <HeroSection/>
         <BentoGrid/>
+        <PromoSection/>
         </>
         
     )

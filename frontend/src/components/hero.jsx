@@ -26,7 +26,7 @@ function HeroSection() {
             <Header1 headerText={"Data to enrich your online business"}/>
             <Paragraph pText={"Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat."}/>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <AnchorButton btnText = "Get Started"/>
+              <AnchorButton btnText = "Get Started" Link={"#"}/>
               <Anchor AnchorText="Learn more"/>
             </div>
           </div>
