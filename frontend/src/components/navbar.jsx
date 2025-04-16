@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Dialog, DialogPanel } from "@headlessui/react";
 
 const navigation = [
-    { name: 'Product', href: '#' },
+    { name: 'Categories', href: '/categories' },
     { name: 'Features', href: '#' },
     { name: 'Marketplace', href: '#' },
     { name: 'Company', href: '#' },
