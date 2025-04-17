@@ -16,6 +16,9 @@ function NavbarLinks({ navigation, mobileview }) {
         ))}
       </div>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+      <Link to="/cart" className="text-sm/6 font-semibold text-gray-900">
+          Cart
+        </Link>
         <Link to="#" className="text-sm/6 font-semibold text-gray-900">
           Log in <span aria-hidden="true">&rarr;</span>
         </Link>

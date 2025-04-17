@@ -6,6 +6,7 @@ import Footer from "./components/footer";
 import Categories from "./pages/Categories";
 import ProductsList from "./pages/ProductsList";
 import Products from "./pages/Product";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/categories" element={<Categories />}></Route>
+          <Route path="/cart" element={<Cart />}></Route>
           <Route path="/categories/products" element={<ProductsList />}></Route>
           <Route path="/categories/products/productid" element={<Products />}></Route>
         </Routes>
