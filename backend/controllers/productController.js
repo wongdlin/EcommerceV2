@@ -12,7 +12,7 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   const { id } = req.params;
   try {
-    const product = await Product.findById(id);
+    const product = await Product.findByPk(id);
     if (product) {
       res.json(product);
     } else {
