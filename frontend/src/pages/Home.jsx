@@ -8,9 +8,9 @@ function Home() {
 
     return(
         <>
+        <PromoSection/>
         <HeroSection/>
         <BentoGrid/>
-        <PromoSection/>
         </>
         
     )
