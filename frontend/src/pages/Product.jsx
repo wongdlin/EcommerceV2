@@ -1,8 +1,9 @@
 import Product from "../components/product";
 import { useEffect } from "react";
+import { BACKEND_API } from "../config";
 
 function Products() {
-    fetch('http://localhost:5000/api/products')
+    fetch(`${BACKEND_API}/api/products`)
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error('Error:', error));
