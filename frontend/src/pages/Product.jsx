@@ -2,21 +2,15 @@ import Product from "../components/product";
 import { useEffect, useState } from "react";
 import { getProductById } from "../api/productApi";
 import Spinner from "../components/ui/spinner";
+import useFetch from "../hooks/useFetch";
 
 function Products() {
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getProductById(1)
-      .then((res) => {
-        setProduct(res.data);
-        setLoading(false);
-      })
-      .catch((error) => console.error("Error:", error));
-    setLoading(false);
-  }, []);
+  const {data: product, loading, error} = useFetch("/api/products/1")
 
-  return <div>{loading ? <Spinner /> : <Product />}</div>;
+  if (loading) return <Spinner/>
+  if(error) return <p className="text-red-500">{error}</p>
+
+  return <Product/>
 }
 export default Products;
