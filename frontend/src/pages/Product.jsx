@@ -1,16 +1,22 @@
 import Product from "../components/product";
-import { useEffect } from "react";
-import { BACKEND_API } from "../config";
+import { useEffect, useState } from "react";
+import { getProductById } from "../api/productApi";
+import Spinner from "../components/ui/spinner";
 
 function Products() {
-    fetch(`${BACKEND_API}/api/products`)
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-  return (
-    <div>
-      <Product />
-    </div>
-  );
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getProductById(1)
+      .then((res) => {
+        setProduct(res.data);
+        setLoading(false);
+      })
+      .catch((error) => console.error("Error:", error));
+    setLoading(false);
+  }, []);
+
+  return <div>{loading ? <Spinner /> : <Product />}</div>;
 }
 export default Products;
