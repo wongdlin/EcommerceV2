@@ -37,7 +37,7 @@ const useFetch = (url) => {
     fetchData();
 
     return () => {
-      isMounted = false; // cleanup
+      isMounted = false;
     };
   }, [url]);
 

@@ -20,6 +20,8 @@
 import { useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { Radio, RadioGroup } from '@headlessui/react'
+import useFetch from '../hooks/useFetch'
+import Spinner from "../components/ui/spinner";
 
 const product = {
   name: 'Basic Tee 6-Pack',
@@ -78,9 +80,16 @@ const reviews = { href: '#', average: 4, totalCount: 117 }
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
+
 function Product() {
+
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+  const {data: test, loading, error} = useFetch("/api/products/1")
+  console.log("test",test)
+
+  if (loading) return <Spinner/>
+  if(error) return <p className="text-red-500">{error}</p>
 
   return (
     <div className="bg-white">
