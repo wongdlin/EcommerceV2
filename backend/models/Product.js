@@ -1,20 +1,28 @@
 const db = require("../config/db");
 
 const Product = {
-  findAll: () => {
-    return db.query("SELECT * FROM products");
+  findAll: async () => {
+    const [rows] = await db.query("SELECT * FROM products");
+    return rows;
   },
-  findById: (id) => {
-    return db.query("SELECT * FROM products WHERE id = ?", [id]);
+  findById: async (id) => {
+    const [rows] = await db.query("SELECT * FROM products WHERE id = ?", [id]);
+    return rows;
   },
-  create: (data) => {
-    return db.query("INSERT INTO products SET ?", data);
+  create: async (data) => {
+    const [rows] = await db.query("INSERT INTO products SET ?", data);
+    return rows;
   },
-  update: (id, data) => {
-    return db.query("UPDATE products SET ? WHERE id = ?", [data, id]);
+  update: async (id, data) => {
+    const [rows] = await db.query("UPDATE products SET ? WHERE id = ?", [
+      data,
+      id,
+    ]);
+    return rows;
   },
-  delete: (id) => {
-    return db.query("DELETE FROM products WHERE id = ?", [id]);
+  delete: async (id) => {
+    const [rows] = await db.query("DELETE FROM products WHERE id = ?", [id]);
+    return rows;
   },
 };
 

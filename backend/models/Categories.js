@@ -1,20 +1,30 @@
 const db = require("../config/db");
 
 const Categories = {
-  findAll: () => {
-    return db.query("SELECT * FROM categories");
+  findAll: async () => {
+    const [rows] = await db.query("SELECT * FROM categories");
+    return rows;
   },
-  findById: (id) => {
-    return db.query("SELECT * FROM categories WHERE id = ?", [id]);
+  findById: async (id) => {
+    const [rows] = await db.query("SELECT * FROM categories WHERE id = ?", [
+      id,
+    ]);
+    return rows;
   },
-  create: (data) => {
-    return db.query("INSERT INTO categories SET ?", data);
+  create: async (data) => {
+    const [rows] = await db.query("INSERT INTO categories SET ?", data);
+    return rows;
   },
-  update: (id, data) => {
-    return db.query("UPDATE categories SET ? WHERE id = ?", [data, id]);
+  update: async (id, data) => {
+    const [rows] = await db.query("UPDATE categories SET ? WHERE id = ?", [
+      data,
+      id,
+    ]);
+    return rows;
   },
-  delete: (id) => {
-    return db.query("DELETE FROM categories WHERE id = ?", [id]);
+  delete: async (id) => {
+    const [rows] = await db.query("DELETE FROM categories WHERE id = ?", [id]);
+    return rows;
   },
 };
 
