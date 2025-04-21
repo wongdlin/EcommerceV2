@@ -22,6 +22,11 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { Radio, RadioGroup } from '@headlessui/react'
 import useFetch from '../hooks/useFetch'
 import Spinner from "../components/ui/spinner";
+import Breadcrumb from './ui/breadcrumb'
+import ProductImgGallery from './productImgGallery'
+import Reviews from './ui/reviews'
+import ColorPicker from './colorPicker'
+import { classNames } from '../utils/classNames'
 
 const product = {
   name: 'Basic Tee 6-Pack',
@@ -77,10 +82,6 @@ const product = {
 }
 const reviews = { href: '#', average: 4, totalCount: 117 }
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
 function Product() {
 
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
@@ -94,60 +95,8 @@ function Product() {
   return (
     <div className="bg-white">
       <div className="pt-6">
-        <nav aria-label="Breadcrumb">
-          <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            {product.breadcrumbs.map((breadcrumb) => (
-              <li key={breadcrumb.id}>
-                <div className="flex items-center">
-                  <a href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
-                    {breadcrumb.name}
-                  </a>
-                  <svg
-                    fill="currentColor"
-                    width={16}
-                    height={20}
-                    viewBox="0 0 16 20"
-                    aria-hidden="true"
-                    className="h-5 w-4 text-gray-300"
-                  >
-                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                  </svg>
-                </div>
-              </li>
-            ))}
-            <li className="text-sm">
-              <a href={product.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
-                {product.name}
-              </a>
-            </li>
-          </ol>
-        </nav>
-
-        {/* Image gallery */}
-        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-          <img
-            alt={product.images[0].alt}
-            src={product.images[0].src}
-            className="hidden size-full rounded-lg object-cover lg:block"
-          />
-          <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-            <img
-              alt={product.images[1].alt}
-              src={product.images[1].src}
-              className="aspect-3/2 w-full rounded-lg object-cover"
-            />
-            <img
-              alt={product.images[2].alt}
-              src={product.images[2].src}
-              className="aspect-3/2 w-full rounded-lg object-cover"
-            />
-          </div>
-          <img
-            alt={product.images[3].alt}
-            src={product.images[3].src}
-            className="aspect-4/5 size-full object-cover sm:rounded-lg lg:aspect-auto"
-          />
-        </div>
+        <Breadcrumb breadcrumbs={product.breadcrumbs} product={product}/>
+        <ProductImgGallery images={product.images}/>
 
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
@@ -161,54 +110,11 @@ function Product() {
             <p className="text-3xl tracking-tight text-gray-900">{product.price}</p>
 
             {/* Reviews */}
-            <div className="mt-6">
-              <h3 className="sr-only">Reviews</h3>
-              <div className="flex items-center">
-                <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      aria-hidden="true"
-                      className={classNames(
-                        reviews.average > rating ? 'text-gray-900' : 'text-gray-200',
-                        'size-5 shrink-0',
-                      )}
-                    />
-                  ))}
-                </div>
-                <p className="sr-only">{reviews.average} out of 5 stars</p>
-                <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                  {reviews.totalCount} reviews
-                </a>
-              </div>
-            </div>
+            <Reviews reviews={reviews}/>
 
             <form className="mt-10">
               {/* Colors */}
-              <div>
-                <h3 className="text-sm font-medium text-gray-900">Color</h3>
-
-                <fieldset aria-label="Choose a color" className="mt-4">
-                  <RadioGroup value={selectedColor} onChange={setSelectedColor} className="flex items-center gap-x-3">
-                    {product.colors.map((color) => (
-                      <Radio
-                        key={color.name}
-                        value={color}
-                        aria-label={color.name}
-                        className={classNames(
-                          color.selectedClass,
-                          'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-hidden data-checked:ring-2 data-focus:data-checked:ring-3 data-focus:data-checked:ring-offset-1',
-                        )}
-                      >
-                        <span
-                          aria-hidden="true"
-                          className={classNames(color.class, 'size-8 rounded-full border border-black/10')}
-                        />
-                      </Radio>
-                    ))}
-                  </RadioGroup>
-                </fieldset>
-              </div>
+              <ColorPicker selectedColor={selectedColor} setSelectedColor={setSelectedColor} colors={product.colors}/>
 
               {/* Sizes */}
               <div className="mt-10">
