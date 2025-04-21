@@ -33,7 +33,7 @@ function ProductList() {
               <img
                 alt={product.name}
                 src={product.primary_image}
-                className="aspect-auto w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
+                className="aspect-auto w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto"
               />
               <div className="mt-4 flex justify-between">
                 <div>
