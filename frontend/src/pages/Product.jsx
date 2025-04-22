@@ -1,4 +1,4 @@
-import Product from "../components/product";
+import Product from "../components/Product";
 import Spinner from "../components/ui/spinner";
 import useFetch from "../hooks/useFetch";
 

@@ -31,7 +31,6 @@ const Product = {
         is_primary: item.is_primary,
       }));
     }
-
     return product;
   },
   findAll: async () => {
@@ -43,6 +42,21 @@ const Product = {
       LEFT JOIN product_images pi 
         ON p.id = pi.product_id AND pi.is_primary = 1
     `);
+    return rows;
+  },
+  findAllByCategory: async (id) => {
+    const [rows] = await db.query(
+      `
+      SELECT 
+      p.*, 
+      pi.image_url AS primary_image 
+      FROM products p
+      LEFT JOIN product_images pi 
+      ON p.id = pi.product_id AND pi.is_primary = 1
+      WHERE p.category_id = ?
+    `,
+      [id]
+    );
     return rows;
   },
   findById: async (id) => {

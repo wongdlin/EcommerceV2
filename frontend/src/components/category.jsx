@@ -24,7 +24,7 @@ function Category() {
                   className="w-full rounded-lg bg-white object-cover group-hover:opacity-75 max-sm:h-80 sm:aspect-2/1 lg:aspect-square"
                 />
                 <h3 className="mt-6 text-sm text-gray-500">
-                  <Link to={item.href}>
+                  <Link to={`/categories/${item.id}`}>
                     <span className="absolute inset-0" />
                     {item.name}
                   </Link>

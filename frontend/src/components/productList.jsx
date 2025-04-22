@@ -2,25 +2,17 @@ import Header1 from "./ui/header1";
 import useFetch from "../hooks/useFetch";
 import Spinner from "./ui/spinner";
 import { Link } from "react-router-dom";
-// const products = [
-//   {
-//     id: 1,
-//     name: "Basic Tee",
-//     href: "/categories/products/productid",
-//     imageSrc:
-//       "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-01.jpg",
-//     imageAlt: "Front of men's Basic Tee in black.",
-//     price: "$35",
-//     color: "Black",
-//   },
-// ];
+import { useParams } from 'react-router-dom';
+import Error from "./error";
 
 function ProductList() {
 
-  const {data:products, loading, error} = useFetch("api/products")
+  const {id} = useParams()
+
+  const {data:products, loading, error} = useFetch(`/api/products/category/${id}`)
 
   if (loading) return <Spinner />;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (error) return <Error errMsg={error}/>;
 
   return (
     <div className="bg-white">
@@ -38,7 +30,7 @@ function ProductList() {
               <div className="mt-4 flex justify-between">
                 <div>
                   <h3 className="text-sm text-gray-700">
-                    <Link to="/categories/products/productid">
+                    <Link to={`/categories/products/${product.id}`}>
                       <span aria-hidden="true" className="absolute inset-0" />
                       {product.name}
                     </Link>

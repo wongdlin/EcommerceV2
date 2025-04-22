@@ -26,6 +26,7 @@ import Reviews from './ui/reviews'
 import ColorPicker from './colorPicker'
 import SizePicker from './sizePicker'
 import Error from './error';
+import { useParams } from 'react-router-dom';
 
 const product = {
   name: 'Basic Tee 6-Pack',
@@ -67,7 +68,8 @@ function Product() {
 
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
-  const {data: test, loading, error} = useFetch("/api/products/1")
+  const {id} = useParams()
+  const {data: test, loading, error} = useFetch(`/api/products/${id}`)
   console.log("test",test)
 
   if (loading) return <Spinner/>

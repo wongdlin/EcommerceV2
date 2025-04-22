@@ -13,22 +13,22 @@ const useFetch = (url) => {
 
     const fetchData = async () => {
       try {
-        const response = await api.get(url);
-        const result = response.data;
+        const { data } = await api.get(url);
 
         if (isMounted) {
           setState({
-            data: result,
+            data,
             loading: false,
             error: null,
           });
         }
       } catch (error) {
         if (isMounted) {
+          console.log("useFetch error:", error);
           setState({
             data: null,
             loading: false,
-            error: error.message,
+            error: error.message || "Something went wrong",
           });
         }
       }
