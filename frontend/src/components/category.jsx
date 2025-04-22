@@ -2,6 +2,7 @@ import Header1 from "./ui/header1";
 import useFetch from "../hooks/useFetch";
 import Spinner from "./ui/spinner";
 import { Link } from "react-router-dom";
+import Breadcrumb from "./ui/breadcrumb";
 
 function Category() {
   const { data: category, loading, error } = useFetch("/api/categories");
@@ -10,7 +11,8 @@ function Category() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-white">
+      <Breadcrumb/>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
           <Header1 headerText={"Collections"}></Header1>

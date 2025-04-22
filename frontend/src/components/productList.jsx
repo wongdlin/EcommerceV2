@@ -2,22 +2,27 @@ import Header1 from "./ui/header1";
 import useFetch from "../hooks/useFetch";
 import Spinner from "./ui/spinner";
 import { Link } from "react-router-dom";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import Error from "./error";
+import Breadcrumb from "./ui/breadcrumb";
 
 function ProductList() {
+  const { id } = useParams();
 
-  const {id} = useParams()
-
-  const {data:products, loading, error} = useFetch(`/api/products/category/${id}`)
+  const {
+    data: products,
+    loading,
+    error,
+  } = useFetch(`/api/products/category/${id}`);
 
   if (loading) return <Spinner />;
-  if (error) return <Error errMsg={error}/>;
+  if (error) return <Error errMsg={error} />;
 
   return (
     <div className="bg-white">
+      <Breadcrumb />
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <Header1 headerText={"Products"}/>
+        <Header1 headerText={"Products"} />
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
@@ -47,4 +52,5 @@ function ProductList() {
       </div>
     </div>
   );
-}export default ProductList
+}
+export default ProductList;

@@ -58,8 +58,9 @@ function Product() {
 
   return (
     <div className="bg-white">
+      <Breadcrumb product={test}/>
       <div className="pt-6">
-        <Breadcrumb breadcrumbs={product.breadcrumbs} product={product}/>
+        
         <ProductImgGallery data={test.images}/>
 
         {/* Product info */}
