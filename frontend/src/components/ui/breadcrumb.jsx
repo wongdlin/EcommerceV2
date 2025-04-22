@@ -1,4 +1,15 @@
+import { Link, useLocation, useParams } from "react-router-dom";
+
 function Breadcrumb ({breadcrumbs, product}){
+
+  const location = useLocation()
+  const {id, productId} = useParams()
+
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  console.log("id:",id)
+  console.log("productId:",productId)
+  console.log("pathsegment:",pathSegments)
+
     return(
         <nav aria-label="Breadcrumb" className="hidden md:block">
           <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
