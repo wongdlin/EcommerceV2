@@ -12,6 +12,7 @@ const Product = {
         p.stock,
         p.category_id, 
         pi.image_url,
+        pi.alt_text,
         pi.is_primary
       FROM products p 
       LEFT JOIN product_images pi ON pi.product_id = p.id
@@ -26,6 +27,7 @@ const Product = {
       // Group the images based on their primary status
       product.images = rows.map((item) => ({
         image_url: item.image_url,
+        alt_text: item.alt_text,
         is_primary: item.is_primary,
       }));
     }

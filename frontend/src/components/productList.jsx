@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 function ProductList() {
 
   const {data:products, loading, error} = useFetch("api/products")
-  console.log("testing",products)
+
   if (loading) return <Spinner />;
   if (error) return <p className="text-red-500">{error}</p>;
 
@@ -33,7 +33,7 @@ function ProductList() {
               <img
                 alt={product.name}
                 src={product.primary_image}
-                className="aspect-auto w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto"
+                className="aspect-auto w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80 md:h-80"
               />
               <div className="mt-4 flex justify-between">
                 <div>

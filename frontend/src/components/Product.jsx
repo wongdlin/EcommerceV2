@@ -18,16 +18,12 @@
 'use client'
 
 import { useState } from 'react'
-import { StarIcon } from '@heroicons/react/20/solid'
-import { Radio, RadioGroup } from '@headlessui/react'
 import useFetch from '../hooks/useFetch'
 import Spinner from "../components/ui/spinner";
 import Breadcrumb from './ui/breadcrumb'
 import ProductImgGallery from './productImgGallery'
 import Reviews from './ui/reviews'
 import ColorPicker from './colorPicker'
-import { classNames } from '../utils/classNames'
-import { Link } from 'react-router-dom'
 import SizePicker from './sizePicker'
 
 const product = {
@@ -89,7 +85,6 @@ function Product() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
   const {data: test, loading, error} = useFetch("/api/products/1")
-  console.log("test",test)
 
   if (loading) return <Spinner/>
   if(error) return <p className="text-red-500">{error}</p>
@@ -98,7 +93,7 @@ function Product() {
     <div className="bg-white">
       <div className="pt-6">
         <Breadcrumb breadcrumbs={product.breadcrumbs} product={product}/>
-        <ProductImgGallery images={product.images}/>
+        <ProductImgGallery data={test.images}/>
 
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
