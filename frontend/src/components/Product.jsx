@@ -25,6 +25,7 @@ import ProductImgGallery from './productImgGallery'
 import Reviews from './ui/reviews'
 import ColorPicker from './colorPicker'
 import SizePicker from './sizePicker'
+import Error from './error';
 
 const product = {
   name: 'Basic Tee 6-Pack',
@@ -33,24 +34,6 @@ const product = {
   breadcrumbs: [
     { id: 1, name: 'Men', href: '#' },
     { id: 2, name: 'Clothing', href: '#' },
-  ],
-  images: [
-    {
-      src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
-      alt: 'Two each of gray, white, and black shirts laying flat.',
-    },
-    {
-      src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg',
-      alt: 'Model wearing plain black basic tee.',
-    },
-    {
-      src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg',
-      alt: 'Model wearing plain gray basic tee.',
-    },
-    {
-      src: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-02-featured-product-shot.jpg',
-      alt: 'Model wearing plain white basic tee.',
-    },
   ],
   colors: [
     { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
@@ -85,9 +68,10 @@ function Product() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
   const {data: test, loading, error} = useFetch("/api/products/1")
+  console.log("test",test)
 
   if (loading) return <Spinner/>
-  if(error) return <p className="text-red-500">{error}</p>
+  if(error) return <Error errMsg={error}/>
 
   return (
     <div className="bg-white">
@@ -98,13 +82,13 @@ function Product() {
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{test.name}</h1>
           </div>
 
           {/* Options */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl tracking-tight text-gray-900">{product.price}</p>
+            <p className="text-3xl tracking-tight text-gray-900">RM{test.price}</p>
 
             {/* Reviews */}
             <Reviews reviews={reviews}/>
@@ -131,7 +115,7 @@ function Product() {
               <h3 className="sr-only">Description</h3>
 
               <div className="space-y-6">
-                <p className="text-base text-gray-900">{product.description}</p>
+                <p className="text-base text-gray-900">{test.description}</p>
               </div>
             </div>
 
@@ -153,7 +137,7 @@ function Product() {
               <h2 className="text-sm font-medium text-gray-900">Details</h2>
 
               <div className="mt-4 space-y-6">
-                <p className="text-sm text-gray-600">{product.details}</p>
+                <p className="text-sm text-gray-600">{test.description}</p>
               </div>
             </div>
           </div>
