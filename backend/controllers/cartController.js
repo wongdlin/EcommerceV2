@@ -2,8 +2,8 @@ const Cart = require("../models/Cart");
 
 const getCart = async (req, res) => {
   try {
-    const { userId } = req.params;
-
+    const userId = req.user?.id;
+    
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }

@@ -12,81 +12,96 @@ import { useParams } from "react-router-dom";
 import { useCart } from "../context/cartContext";
 
 const product = {
-  name: 'Basic Tee 6-Pack',
-  price: '$192',
-  href: '#',
+  name: "Basic Tee 6-Pack",
+  price: "$192",
+  href: "#",
   breadcrumbs: [
-    { id: 1, name: 'Men', href: '#' },
-    { id: 2, name: 'Clothing', href: '#' },
+    { id: 1, name: "Men", href: "#" },
+    { id: 2, name: "Clothing", href: "#" },
   ],
   colors: [
-    { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
-    { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
-    { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
+    { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
+    { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
+    { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
   ],
   sizes: [
-    { name: 'XXS', inStock: false },
-    { name: 'XS', inStock: true },
-    { name: 'S', inStock: true },
-    { name: 'M', inStock: true },
-    { name: 'L', inStock: true },
-    { name: 'XL', inStock: true },
-    { name: '2XL', inStock: true },
-    { name: '3XL', inStock: true },
+    { name: "XXS", inStock: false },
+    { name: "XS", inStock: true },
+    { name: "S", inStock: true },
+    { name: "M", inStock: true },
+    { name: "L", inStock: true },
+    { name: "XL", inStock: true },
+    { name: "2XL", inStock: true },
+    { name: "3XL", inStock: true },
   ],
   description:
     'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
   highlights: [
-    'Hand cut and sewn locally',
-    'Dyed with our proprietary colors',
-    'Pre-washed & pre-shrunk',
-    'Ultra-soft 100% cotton',
+    "Hand cut and sewn locally",
+    "Dyed with our proprietary colors",
+    "Pre-washed & pre-shrunk",
+    "Ultra-soft 100% cotton",
   ],
   details:
     'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
-}
-const reviews = { href: '#', average: 4, totalCount: 117 }
+};
+const reviews = { href: "#", average: 4, totalCount: 117 };
 
 function Products() {
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+  const { id } = useParams();
+  const { data: test, loading, error } = useFetch(`/api/products/${id}`);
 
-  const {addToCart} = useCart
+  const { addToCart ,fetchCart} = useCart();
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    console.log(test.id)
+    addToCart(test.id, 1);
+  };
+  // console.log("test", test);
 
-  const [selectedColor, setSelectedColor] = useState(product.colors[0])
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2])
-  const {id} = useParams()
-  const {data: test, loading, error} = useFetch(`/api/products/${id}`)
-  console.log("test",test)
-
-  if (loading) return <Spinner/>
-  if(error) return <Error errMsg={error}/>
+  if (loading) return <Spinner />;
+  if (error) return <Error errMsg={error} />;
 
   return (
     <div className="bg-white">
-      <Breadcrumb product={test}/>
+      <Breadcrumb product={test} />
       <div className="pt-6">
-        
-        <ProductImgGallery data={test.images}/>
+        <ProductImgGallery data={test.images} />
 
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{test.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+              {test.name}
+            </h1>
           </div>
 
           {/* Options */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl tracking-tight text-gray-900">RM{test.price}</p>
+            <p className="text-3xl tracking-tight text-gray-900">
+              RM{test.price}
+            </p>
 
             {/* Reviews */}
-            <Reviews reviews={reviews}/>
+            <Reviews reviews={reviews} />
 
-            <form className="mt-10">
+            <form className="mt-10" onSubmit={handleAddToCart}>
               {/* Colors */}
-              <ColorPicker selectedColor={selectedColor} setSelectedColor={setSelectedColor} colors={product.colors}/>
+              <ColorPicker
+                selectedColor={selectedColor}
+                setSelectedColor={setSelectedColor}
+                colors={product.colors}
+              />
 
               {/* Sizes */}
-              <SizePicker selectedSize={selectedSize} setSelectedSize={setSelectedSize} sizes={product.sizes}/>
+              <SizePicker
+                selectedSize={selectedSize}
+                setSelectedSize={setSelectedSize}
+                sizes={product.sizes}
+              />
 
               <button
                 type="submit"
@@ -132,6 +147,6 @@ function Products() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-export default Products
+export default Products;

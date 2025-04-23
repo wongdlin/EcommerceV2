@@ -37,12 +37,14 @@ export const CartProvider = ({ children }) => {
         },
       });
       setCart(response.data);
+      console.log("cart",response.data)
     } catch (err) {
       console.error("Error fetching cart:", err);
     }
   };
 
-  const addToCart = async (product) => {
+  const addToCart = async (product,qty) => {
+    console.log("product:",product,qty)
     try {
       if (!user) {
         throw new Error("User must be logged in to add item to cart");
@@ -77,7 +79,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{cart, addToCart, removeFromCart}}>
+    <CartContext.Provider value={{cart, addToCart, removeFromCart, fetchCart}}>
         {children}
     </CartContext.Provider>
   )

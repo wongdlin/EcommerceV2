@@ -8,3 +8,5 @@ const Cart = {
     return rows;
   },
 };
+
+module.exports = Cart;
