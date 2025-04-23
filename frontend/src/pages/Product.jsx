@@ -9,6 +9,7 @@ import ColorPicker from "../components/colorPicker";
 import SizePicker from "../components/sizePicker";
 import Error from "../components/error";
 import { useParams } from "react-router-dom";
+import { useCart } from "../context/cartContext";
 
 const product = {
   name: 'Basic Tee 6-Pack',
@@ -47,6 +48,8 @@ const product = {
 const reviews = { href: '#', average: 4, totalCount: 117 }
 
 function Products() {
+
+  const {addToCart} = useCart
 
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])

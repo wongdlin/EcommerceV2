@@ -1,5 +1,5 @@
 import LoginSection from "../components/loginSection";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
 
