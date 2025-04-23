@@ -81,8 +81,11 @@ function PromoSection() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-start">
-              <AnchorButton btnText={"Shop Collection"} link={"#"}/>
+              <div className="flex justify-start absolute z-20">
+                <AnchorButton
+                  btnText={"Shop Collection"}
+                  link={"/categories"}
+                />
               </div>
             </div>
           </div>

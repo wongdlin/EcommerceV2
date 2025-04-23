@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import api from "../api/api"; // Assuming you're using axios
+import api from "../api/api";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
