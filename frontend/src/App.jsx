@@ -8,10 +8,11 @@ import ProductsList from "./pages/ProductsList";
 import Products from "./pages/Product";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  const isLoginPage = location.pathname === "/login" || location.pathname === "/register";
 
   return (
     <>
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
         <Route path="/categories" element={<Categories />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
         <Route path="/categories/:id" element={<ProductsList />}></Route>
