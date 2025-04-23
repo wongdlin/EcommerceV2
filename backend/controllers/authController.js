@@ -7,7 +7,7 @@ const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const existingUser = await Auth.login([email]);
+    const existingUser = await Auth.findByEmail([email]);
     if (existingUser.length > 0) {
       return res.status(400).json({ message: "User already exists." });
     }
@@ -27,7 +27,7 @@ const register = async (req, res) => {
 
     res
       .status(201)
-      .json({ message: "Registration successful", userId: result.insertId });
+      .json({ message: "Registration successful", user: newUser, token, });
   } catch (err) {
     console.error("Registration error:", err);
     res.status(500).json({ message: "Server error. Please try again later." });
@@ -43,7 +43,7 @@ const login = async (req, res) => {
         .json({ message: "Email and password are required." });
     }
 
-    const users = await Auth.login([email]);
+    const users = await Auth.findByEmail([email]);
     const user = users[0];
 
     if (!user) {
