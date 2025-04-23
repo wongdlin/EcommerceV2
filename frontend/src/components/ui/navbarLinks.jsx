@@ -19,7 +19,7 @@ function NavbarLinks({ navigation, mobileview }) {
         <Link to="/cart" className="text-sm/6 font-semibold mx-3 text-gray-900">
           Cart
         </Link>
-        <Link to="#" className="text-sm/6 font-semibold text-gray-900">
+        <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
           Log in <span aria-hidden="true">&rarr;</span>
         </Link>
       </div>
@@ -45,7 +45,7 @@ function NavbarLinks({ navigation, mobileview }) {
           Cart
         </Link>
         <Link
-          to="#"
+          to="/login"
           className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
         >
           Log in

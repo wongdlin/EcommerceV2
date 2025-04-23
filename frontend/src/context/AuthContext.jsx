@@ -1,48 +1,58 @@
-import { createContext, useContext, useState, useEffect, useLayoutEffect } from "react";
-import useFetch from "../hooks/useFetch";
-import api from "../api/api";
+import { createContext, useContext, useState, useEffect } from "react";
+import api from "../api/api"; // Assuming you're using axios
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 export const useAuth = () => {
-  const authContext = useContext(AuthContext);
-
-  if (!authContext) {
-    throw new Error("useAuth must be used within a AuthProvider");
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
   }
+  return context;
 };
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState();
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchMe = async () => {
+    if (token) {
       try {
-        const res = await api.get("/api/me");
-        setToken(res.data.accessToken);
-      } catch {
-        setToken(null);
+        const decoded = jwtDecode(token);
+        setUser(decoded);
+      } catch (err) {
+        console.error("Invalid token");
+        setUser(null);
       }
-    };
-    fetchMe();
-  }, []);
+    }
+  }, [token]);
 
-  useLayoutEffect(()=>{
-    const authInterceptor = api.interceptors.request.use((config) => {
-        config.headers.Authorization = 
-        !config._retry && token 
-        ? `Bearer ${token}`
-        : config.headers.Authorization
-        return config
+  const register = async (name, email, password, phone) => {
+    try {
+      const res = await api.post("/api/auth/register", { name, email, password, phone });
+      const { token, user } = res.data;
 
-    })
+      setToken(token);
+      setUser(user);
+      localStorage.setItem("token", token);
+      navigate("/")
+    } catch (err) {
+      console.error(err.response?.data?.message || "Registration failed");
+    }
+  };
 
-    return()=>[
-        api.interceptors.request.eject(authInterceptor)
-    ]
-  },[token])
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem("token");
+  };
 
-
+  return (
+    <AuthContext.Provider value={{ user, register, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
-
