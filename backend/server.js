@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const db = require("./config/db");
 const productRoutes = require("./routes/productRoutes")
 const categoriesRoutes = require("./routes/categoriesRoutes")
+const authRoutes = require('./routes/authRoutes')
 
 app.use(cors());
 app.use(express.json());
@@ -14,6 +14,7 @@ app.get("/", (req, res) => {
 
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoriesRoutes);
+app.use('/api/auth', authRoutes)
 
 app.use((req, res) => {
   console.log("Unknown path:", req.path);
