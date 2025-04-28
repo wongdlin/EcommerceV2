@@ -43,8 +43,8 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const addToCart = async (product,qty) => {
-    console.log("product:",product,qty)
+  const addToCart = async (productId,qty) => {
+    console.log("product:",productId,qty)
     try {
       if (!user) {
         console.log("unauthorized")
@@ -52,7 +52,7 @@ export const CartProvider = ({ children }) => {
       }
       const res = await api.post(
         "/api/cart/addToCart",
-        { product , qty},
+        { productId , qty},
         {
           headers: {
             Authorization: `Bearer ${token}`,
