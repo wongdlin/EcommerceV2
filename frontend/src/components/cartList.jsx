@@ -2,11 +2,15 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/cartContext";
 
 function CartList() {
-  const { cart, removeFromCart } = useCart();
+  // console.log("cartItems",cartItems);
+  const { removeFromCart,cart,addToCart } = useCart();
   const handleRemoveProduct= async (productId) => {
-    removeFromCart(productId);
+    await removeFromCart(productId);
   };
-  console.log("cart:",cart)
+
+  const handleAddProduct= async (productId) => {
+    await addToCart(productId, 1);
+  };
 
   return cart.map((cart) => (
     
@@ -45,7 +49,7 @@ function CartList() {
               required
             />
             <button
-              onClick={() => handleAddToCart(cart.id)}
+              onClick={()=>handleAddProduct(cart.product_id)}
               type="button"
               id="increment-button"
               className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
@@ -68,7 +72,7 @@ function CartList() {
 
           <div className="flex items-center gap-4">
             <button
-              onClick={()=>handleRemoveProduct(cart.id)}
+              onClick={()=>handleRemoveProduct(cart.product_id)}
               type="button"
               className="inline-flex !bg-transparent items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
             >

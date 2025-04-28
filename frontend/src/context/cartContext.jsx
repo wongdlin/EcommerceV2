@@ -20,6 +20,7 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const { user, token } = useAuth();
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (user && token) {
@@ -30,6 +31,7 @@ export const CartProvider = ({ children }) => {
   }, [user, token]);
 
   const fetchCart = async () => {
+    setLoading(true)
     try {
       const response = await api.get("/api/cart", {
         headers: {
@@ -39,6 +41,8 @@ export const CartProvider = ({ children }) => {
       setCart(response.data);
     } catch (err) {
       console.error("Error fetching cart:", err);
+    } finally{
+      setLoading(false)
     }
   };
 
@@ -57,11 +61,26 @@ export const CartProvider = ({ children }) => {
           },
         }
       );
-      setCart(res.data);
+      fetchCart()
     } catch (err) {
       console.error("Error adding to cart:", err);
     }
   };
+
+  const reduceQty = async (productId) =>{
+    try{
+      if (!user) {
+        throw new Error("User must be logged in to add item to cart");
+      }
+      const res = await api.put(`/api/cart/${productId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      fetchCart()
+    }catch(err){
+      console.error("Error reduceing cart quantity:", err)
+    }
+  }
 
   const removeFromCart = async (productId) => {
     try {
@@ -71,7 +90,8 @@ export const CartProvider = ({ children }) => {
       const res = await api.delete(`/api/cart/${productId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setCart(res.data)
+
+      fetchCart()
     } catch (err) {
         console.error("Error removing from cart:", err)
     }

@@ -3,7 +3,6 @@ const Cart = require("../models/Cart");
 const getCart = async (req, res) => {
   try {
     const userId = req.user?.id;
-    console.log("userid:",userId)
 
     if (!userId) {
       return res.status(401).json({ error: "Unauthorized" });
@@ -34,7 +33,7 @@ const addToCart = async (req, res) => {
       .json({ error: "Product ID and quantity are required" });
   }
   try {
-    await Cart.addTocart(userId, productId, qty);
+    const product = await Cart.addTocart(userId, productId, qty);
     res.status(200).json({ message: "Product added to cart" });
   } catch (err) {
     console.error("Error adding to cart:", err);
@@ -44,7 +43,7 @@ const addToCart = async (req, res) => {
 
 const removeFromCart = async (req,res) =>{
   const userId = req.user?.id;
-  const productId = req.params;
+  const productId = req.params.id;
 
   if (!userId) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -58,13 +57,17 @@ const removeFromCart = async (req,res) =>{
     await Cart.deleteFromCart(userId, productId);
     res.status(200).json({ message: "Product removed from cart" });
   } catch (err) {
-    console.error("Error removing from cart:", err);
     res.status(500).json({ error: "Server error. Please try again later." });
   }
+}
+
+const reduceCartQty = async (req,res) =>{
+
 }
 
 module.exports = {
   getCart,
   addToCart,
   removeFromCart,
+  reduceCartQty,
 };
