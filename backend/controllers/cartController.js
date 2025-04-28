@@ -16,7 +16,7 @@ const getCart = async (req, res) => {
     return res.status(200).json(cart);
   } catch (err) {
     console.error("Error fetching cart :", err);
-    res.status(500).json({ error: "Server error. Please try again later." });
+    return res.status(500).json({ error: "Server error. Please try again later." });
   }
 };
 
@@ -33,15 +33,17 @@ const addToCart = async (req, res) => {
       .json({ error: "Product ID and quantity are required" });
   }
   try {
-    const product = await Cart.addTocart(userId, productId, qty);
-    res.status(200).json({ message: "Product added to cart" });
+    await Cart.addTocart(userId, productId, qty);
+    return res.status(200).json({ message: "Product added to cart" });
   } catch (err) {
     console.error("Error adding to cart:", err);
-    res.status(500).json({ error: "Server error. Please try again later." });
+    return res
+      .status(500)
+      .json({ error: "Server error. Please try again later." });
   }
 };
 
-const removeFromCart = async (req,res) =>{
+const removeFromCart = async (req, res) => {
   const userId = req.user?.id;
   const productId = req.params.id;
 
@@ -49,25 +51,48 @@ const removeFromCart = async (req,res) =>{
     return res.status(401).json({ error: "Unauthorized" });
   }
   if (!productId) {
-    return res
-      .status(400)
-      .json({ error: "Product ID is required" });
+    return res.status(400).json({ error: "Product ID is required" });
   }
   try {
     await Cart.deleteFromCart(userId, productId);
-    res.status(200).json({ message: "Product removed from cart" });
+    return res.status(200).json({ message: "Product removed from cart" });
   } catch (err) {
-    res.status(500).json({ error: "Server error. Please try again later." });
+    return res
+      .status(500)
+      .json({ error: "Server error. Please try again later." });
   }
-}
+};
 
-const reduceCartQty = async (req,res) =>{
+const UpdateCartQty = async (req, res) => {
+  const userId = req.user?.id;
+  const { productId, change } = req.body;
 
-}
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  if (!productId || !change) {
+    return res.status(400).json({ error: "Product ID and qty is required" });
+  }
+  try {
+    const getQty = await Cart.getProductQty(userId, productId);
+    const currentQty = getQty[0].quantity;
+
+    if (currentQty + change <= 0) {
+      await Cart.deleteFromCart(userId, productId);
+      return res.status(200).json({ message: "Product removed from cart" });
+    }
+    await Cart.updateCartQty(userId, productId, change);
+    return res.status(200).json({ message: "Product quantity updated" });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ error: "Server error. Please try again later." });
+  }
+};
 
 module.exports = {
   getCart,
   addToCart,
   removeFromCart,
-  reduceCartQty,
+  UpdateCartQty,
 };

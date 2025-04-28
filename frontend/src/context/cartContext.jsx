@@ -1,9 +1,4 @@
-import {
-  useContext,
-  useState,
-  useEffect,
-  createContext,
-} from "react";
+import { useContext, useState, useEffect, createContext } from "react";
 import { useAuth } from "./authContext";
 import api from "../api/api";
 
@@ -20,7 +15,7 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const { user, token } = useAuth();
   const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user && token) {
@@ -31,7 +26,7 @@ export const CartProvider = ({ children }) => {
   }, [user, token]);
 
   const fetchCart = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await api.get("/api/cart", {
         headers: {
@@ -41,46 +36,50 @@ export const CartProvider = ({ children }) => {
       setCart(response.data);
     } catch (err) {
       console.error("Error fetching cart:", err);
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
-  const addToCart = async (productId,qty) => {
+  const addToCart = async (productId, qty) => {
     try {
       if (!user) {
-        console.log("Unauthorized")
+        console.log("Unauthorized");
         throw new Error("User must be logged in to add item to cart");
       }
       const res = await api.post(
         "/api/cart/addToCart",
-        { productId , qty},
+        { productId, qty },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      fetchCart()
+      fetchCart();
     } catch (err) {
       console.error("Error adding to cart:", err);
     }
   };
 
-  const reduceQty = async (productId) =>{
-    try{
+  const updateQty = async (productId, change) => {
+    try {
       if (!user) {
         throw new Error("User must be logged in to add item to cart");
       }
-      const res = await api.put(`/api/cart/${productId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.put(
+        `/api/cart/`,
+        { productId, change },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-      fetchCart()
-    }catch(err){
-      console.error("Error reduceing cart quantity:", err)
+      fetchCart();
+    } catch (err) {
+      console.error("Error reduceing cart quantity:", err);
     }
-  }
+  };
 
   const removeFromCart = async (productId) => {
     try {
@@ -91,16 +90,17 @@ export const CartProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      fetchCart()
+      fetchCart();
     } catch (err) {
-        console.error("Error removing from cart:", err)
+      console.error("Error removing from cart:", err);
     }
   };
 
   return (
-    <CartContext.Provider value={{cart, addToCart, removeFromCart, fetchCart}}>
-        {children}
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, fetchCart, updateQty }}
+    >
+      {children}
     </CartContext.Provider>
-  )
-
+  );
 };

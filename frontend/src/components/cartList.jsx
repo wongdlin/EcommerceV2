@@ -3,14 +3,14 @@ import { useCart } from "../context/cartContext";
 
 function CartList() {
   // console.log("cartItems",cartItems);
-  const { removeFromCart,cart,addToCart } = useCart();
+  const { removeFromCart,cart,updateQty } = useCart();
   const handleRemoveProduct= async (productId) => {
     await removeFromCart(productId);
   };
 
-  const handleAddProduct= async (productId) => {
-    await addToCart(productId, 1);
-  };
+  const handleUpdateQty = async (productId, change) =>{
+    await updateQty(productId,change)
+  }
 
   return cart.map((cart) => (
     
@@ -33,6 +33,7 @@ function CartList() {
         <div className="flex items-center justify-between md:order-3 md:justify-end">
           <div className="flex items-center">
             <button
+            onClick={()=>handleUpdateQty(cart.product_id,-1)}
               type="button"
               id="decrement-button"
               className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
@@ -49,7 +50,7 @@ function CartList() {
               required
             />
             <button
-              onClick={()=>handleAddProduct(cart.product_id)}
+              onClick={()=>handleUpdateQty(cart.product_id,+1)}
               type="button"
               id="increment-button"
               className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"

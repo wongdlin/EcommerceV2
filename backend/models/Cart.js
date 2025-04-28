@@ -26,6 +26,20 @@ const Cart = {
       return { success: false, message: "Product not found in cart" };
     }
   },
+  updateCartQty: async (id, productId, change) => {
+    const [rows] = await db.query(
+      `UPDATE cart  SET quantity = quantity + ? WHERE customer_id = ? AND product_id = ?`,
+      [change, id, productId]
+    );
+    return rows;
+  },
+  getProductQty: async (id, productId) => {
+    const [rows] = await db.query(
+      `SELECT quantity FROM cart WHERE customer_id = ? AND product_id = ?`,
+      [id, productId]
+    );
+    return rows;
+  },
 };
 
 module.exports = Cart;
