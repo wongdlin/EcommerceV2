@@ -37,7 +37,6 @@ export const CartProvider = ({ children }) => {
         },
       });
       setCart(response.data);
-      console.log("cart",response.data)
     } catch (err) {
       console.error("Error fetching cart:", err);
     }

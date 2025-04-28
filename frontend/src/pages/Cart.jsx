@@ -1,8 +1,13 @@
 import CartList from "../components/cartList";
 import OrderSummary from "../components/orderSummary";
 import VoucherForm from "../components/voucherForm";
+import { useCart } from "../context/cartContext";
 
 function Cart() {
+
+  const {cart} = useCart();
+  console.log("cart:",cart);
+
   return (
     <section className="bg-white py-8 antialiased md:py-16">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
@@ -13,7 +18,7 @@ function Cart() {
         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
           <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
             <div className="space-y-6">
-              <CartList/>
+              <CartList cartitem={cart}/>
             </div>
           </div>
 
