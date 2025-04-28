@@ -10,8 +10,8 @@ const Cart = {
   },
   addTocart: async (id, productId, qty) => {
     const [rows] = await db.query(
-      `INSERT INTO cart (customer_id, product_id, quantity) VALUES (?,?,?)`,
-      [id, productId, qty]
+      `INSERT INTO cart (customer_id, product_id, quantity) VALUES (?,?,?) ON DUPLICATE KEY UPDATE quantity = quantity + ?`,
+      [id, productId, qty, qty]
     );
     return rows;
   },
