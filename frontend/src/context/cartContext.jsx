@@ -43,7 +43,6 @@ export const CartProvider = ({ children }) => {
   };
 
   const addToCart = async (productId,qty) => {
-    console.log("product:",productId,qty)
     try {
       if (!user) {
         console.log("Unauthorized")

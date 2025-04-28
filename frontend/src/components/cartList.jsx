@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom";
+import { useCart } from "../context/cartContext";
 
-function CartList({ cartitem }) {
-  return cartitem.map((cart) => (
+function CartList() {
+  const { cart, removeFromCart } = useCart();
+  const handleRemoveProduct= async (productId) => {
+    removeFromCart(productId);
+  };
+  console.log("cart:",cart)
+
+  return cart.map((cart) => (
+    
     <div
       key={cart.id}
       className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm  md:p-6"
@@ -37,6 +45,7 @@ function CartList({ cartitem }) {
               required
             />
             <button
+              onClick={() => handleAddToCart(cart.id)}
               type="button"
               id="increment-button"
               className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
@@ -53,12 +62,13 @@ function CartList({ cartitem }) {
           <Link
             to="#"
             className="text-base font-medium !text-gray-900 hover:underline "
-          >
-            {cart.name}
+          > 
+          {cart.name}
           </Link>
 
           <div className="flex items-center gap-4">
             <button
+              onClick={()=>handleRemoveProduct(cart.id)}
               type="button"
               className="inline-flex !bg-transparent items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
             >

@@ -6,7 +6,6 @@ import { useCart } from "../context/cartContext";
 function Cart() {
 
   const {cart} = useCart();
-  console.log("cart:",cart);
 
   return (
     <section className="bg-white py-8 antialiased md:py-16">
@@ -18,7 +17,7 @@ function Cart() {
         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
           <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
             <div className="space-y-6">
-              <CartList cartitem={cart}/>
+              <CartList/>
             </div>
           </div>
 

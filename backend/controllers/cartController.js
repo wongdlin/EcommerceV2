@@ -42,7 +42,29 @@ const addToCart = async (req, res) => {
   }
 };
 
+const removeFromCart = async (req,res) =>{
+  const userId = req.user?.id;
+  const productId = req.params;
+
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  if (!productId) {
+    return res
+      .status(400)
+      .json({ error: "Product ID is required" });
+  }
+  try {
+    await Cart.deleteFromCart(userId, productId);
+    res.status(200).json({ message: "Product removed from cart" });
+  } catch (err) {
+    console.error("Error removing from cart:", err);
+    res.status(500).json({ error: "Server error. Please try again later." });
+  }
+}
+
 module.exports = {
   getCart,
   addToCart,
+  removeFromCart,
 };

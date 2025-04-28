@@ -15,6 +15,13 @@ const Cart = {
     );
     return rows;
   },
+  deleteFromCart: async (id, productId) => {
+    const [rows] = await db.query(
+      `DELETE FROM cart WHERE customer_id =? AND product_id=?`,
+      [id, productId]
+    );
+    return rows;
+  },
 };
 
 module.exports = Cart;
