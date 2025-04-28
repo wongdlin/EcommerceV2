@@ -4,5 +4,6 @@ const cartController = require('../controllers/cartController')
 const authenticate = require('../middleware/authMiddleware')
 
 router.get('/', authenticate,cartController.getCart);
+router.post('/addToCart',authenticate,cartController.addToCart);
 
 module.exports = router;

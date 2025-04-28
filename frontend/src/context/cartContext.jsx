@@ -4,7 +4,7 @@ import {
   useEffect,
   createContext,
 } from "react";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./authContext";
 import api from "../api/api";
 
 const CartContext = createContext();
@@ -47,14 +47,15 @@ export const CartProvider = ({ children }) => {
     console.log("product:",product,qty)
     try {
       if (!user) {
+        console.log("unauthorized")
         throw new Error("User must be logged in to add item to cart");
       }
       const res = await api.post(
-        "/api/cart",
-        { product },
+        "/api/cart/addToCart",
+        { product , qty},
         {
           headers: {
-            Authorization: `Bearer $token`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
