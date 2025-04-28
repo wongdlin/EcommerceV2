@@ -16,7 +16,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
@@ -30,43 +30,65 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  useEffect(() => {
+    const interceptor = api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          console.error("Session expired, logging out...");
+          logout();
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      api.interceptors.response.eject(interceptor);
+    };
+  }, []);
+
   const register = async (name, email, password, phone) => {
     try {
-      const res = await api.post("/api/auth/register", { name, email, password, phone });
+      const res = await api.post("/api/auth/register", {
+        name,
+        email,
+        password,
+        phone,
+      });
       const { token, user } = res.data;
 
       setToken(token);
       setUser(user);
       localStorage.setItem("token", token);
-      navigate("/")
+      navigate("/");
     } catch (err) {
       console.error(err.response?.data?.message || "Registration failed");
     }
   };
 
-  const login = async (email, password) =>{
+  const login = async (email, password) => {
     try {
-        const res = await api.post("/api/auth/login", { email, password});
-        const { token, user } = res.data;
-  
-        setToken(token);
-        setUser(user);
-        localStorage.setItem("token", token);
-        navigate("/")
-      } catch (err) {
-        console.error(err.response?.data?.message || "Login failed");
-      }
-  }
+      const res = await api.post("/api/auth/login", { email, password });
+      const { token, user } = res.data;
+
+      setToken(token);
+      setUser(user);
+      localStorage.setItem("token", token);
+      navigate("/");
+    } catch (err) {
+      console.error(err.response?.data?.message || "Login failed");
+    }
+  };
 
   const logout = () => {
     setUser(null);
     setToken(null);
     localStorage.removeItem("token");
-    navigate("/login")
+    navigate("/login");
   };
 
   return (
-    <AuthContext.Provider value={{ user, register, login, logout,token }}>
+    <AuthContext.Provider value={{ user, register, login, logout, token }}>
       {children}
     </AuthContext.Provider>
   );

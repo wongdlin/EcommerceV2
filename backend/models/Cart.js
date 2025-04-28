@@ -3,7 +3,7 @@ const db = require("../config/db");
 const Cart = {
   getCart: async (id) => {
     const [rows] = await db.query(
-      `SELECT * FROM cart WHERE customer_id = ? ORDER BY created_at ASC`,
+      `SELECT p.name, p.price, c.id, c.quantity, i.image_url FROM products p LEFT JOIN cart c ON p.id = c.product_id LEFT JOIN product_images i ON i.product_id = p.id AND i.is_primary = 1 WHERE c.customer_id = ?;`,
       [id]
     );
     return rows;

@@ -47,7 +47,7 @@ export const CartProvider = ({ children }) => {
     console.log("product:",productId,qty)
     try {
       if (!user) {
-        console.log("unauthorized")
+        console.log("Unauthorized")
         throw new Error("User must be logged in to add item to cart");
       }
       const res = await api.post(
